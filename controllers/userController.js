@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler'); // enables wrapping of controller functions so inside can use async/await
 const bcrypt = require('bcryptjs'); // password hashing
 const User = require('../models/userModel');
+const jwt = require('jsonwebtoken');
 
 
 // @desc       Register a new user
@@ -48,7 +49,8 @@ const registerUser = asyncHandler(async (req, res) => {
            _id: user._id,
            username: user.username,
            email: user.email,
-           familyname: user.familyname
+           familyname: user.familyname,
+           token: generateToken(user._id)
         });
     } else {
         res.status(400);
@@ -61,8 +63,32 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route      /api/users/login
 // @access     Public
 const loginUser = asyncHandler(async (req, res) => {
-    res.send('Login Route');
-})
+    const {username, password} = req.body;
+
+    // find user
+    const user = await User.findOne({username});
+
+     // if user found and passwords match
+     if(user && (await bcrypt.compare(password, user.password))) {
+        res.status(200).json({
+            _id: user._id,
+            username: user.username,
+            email: user.email,
+            token: generateToken(user._id)
+        });
+    } else {
+        res.status(401);
+        throw new Error('Invalid credentials');
+    };
+});
+
+const generateToken = (id) => {
+    return jwt.sign({ id }, process.env.JWT_SECRET, {
+        expiresIn: '30d',
+    });
+};
+ 
+
 
 module.exports = {
     registerUser,
