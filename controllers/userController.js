@@ -82,16 +82,34 @@ const loginUser = asyncHandler(async (req, res) => {
     };
 });
 
+// @desc  Get current user
+// @ route /api/users/getcurrent
+// @ access Private
+
+// req.user is assigned in authMiddleware.js
+const getCurrentUser = asyncHandler(async (req, res) => {
+    const user = {
+        id: req.user._id,
+        email: req.user.email,
+        username: req.user.username,
+        familyname: req.user.familyname
+    };
+    res.status(200).json(user);
+});
+
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: '30d',
     });
 };
- 
+
+
+
 
 
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    getCurrentUser
 };
-//exports used in UserRoutes
+//exports are used in UserRoutes
