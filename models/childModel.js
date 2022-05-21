@@ -14,22 +14,13 @@ const childSchema = mongoose.Schema({
        type: Date,
        required: [true, "Please supply a date of birth"], 
     },
-    username: {
-        type: String,
-        required: [true, "Please supply a username"], 
-        unique: true
-    },
-    password: {
-        type: String,
-        required: [true, "Please supply a password"], 
-    },
     rewardbal: {
         type: Number,
         get: v => Math.round(v),
         set: v => Math.round(v),
         default: 0
     },
-    completed: {
+    choresdone: {
         type: Number,
         get: v => Math.round(v),
         set: v => Math.round(v),
@@ -38,12 +29,12 @@ const childSchema = mongoose.Schema({
     color: {
         type: String,
         required: [true, "Please select a favourite colour"],
-        enum: ['Blue', 'Green', 'Red', 'Yellow', 'Orange', 'Purple', 'Pink', 'Brown']
+        enum: ['blue', 'green', 'red', 'yellow', 'orange', 'purple', 'pink', 'brown']
     },
     avatar: {
         type: String,
         required: [true, "Please select an avatar"],
-        enum: ['Dino', 'Cat', 'Dog', 'Rabbit']
+        enum: ['dino', 'cat', 'dog', 'rabbit']
     }
 }, 
 {
