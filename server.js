@@ -1,9 +1,15 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv').config();
+const colors = require('colors'); // colors in console.logs
 const { errorHandler } = require('./middleware/errorMiddleware');
+const connectDB = require('./config/db');
 
 const PORT = process.env.PORT || 3000; // this is so it works when hosted and lets the host provider assign a port for you.
+
+//Connect to database
+connectDB();
+
 
 const app = express();
 app.use(cors());
