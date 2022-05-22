@@ -22,6 +22,36 @@ const getChildren = asyncHandler(async (req, res) => {
     res.status(200).json(children);
 });
 
+// @desc  Get child (single - must belong to current user)
+// @ route GET /api/children/:id
+// @ access Private
+
+
+const getChild = asyncHandler(async (req, res) => {
+    // Get user using the id in the JWT
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+        res.status(401);
+        throw new Error('User not found');
+    };
+
+    const child = await Child.findById(req.params.id);
+
+    if (!child) {
+        res.status(404);
+        throw new Error('Child not found');
+    }
+
+    if(child.user.toString() !== req.user.id) {
+        res.status(401);
+        throw new Error ('Not Authorized');
+    }
+
+    res.status(200).json(child);
+});
+
+
 // @desc  Create new child
 // @ route POST /api/children
 // @ access Private
@@ -51,8 +81,75 @@ const createChild = asyncHandler(async (req, res) => {
     res.status(201).json(child);
 });
 
-// user in routes
+// @desc  Delete child 
+// @ route DELETE /api/children/:id
+// @ access Private
+
+
+const deleteChild = asyncHandler(async (req, res) => {
+    // Get user using the id in the JWT
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+        res.status(401);
+        throw new Error('User not found');
+    };
+
+    const child = await Child.findById(req.params.id);
+
+    if (!child) {
+        res.status(404);
+        throw new Error('Child not found');
+    }
+
+    if(child.user.toString() !== req.user.id) {
+        res.status(401);
+        throw new Error ('Not Authorized');
+    }
+
+    await child.remove();
+
+    res.status(200).json({success: true});
+});
+
+// @desc  Update child (single - must belong to current user)
+// @ route PUT /api/children/:id
+// @ access Private
+
+
+const updateChild = asyncHandler(async (req, res) => {
+    // Get user using the id in the JWT
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+        res.status(401);
+        throw new Error('User not found');
+    };
+
+    const child = await Child.findById(req.params.id);
+
+    if (!child) {
+        res.status(404);
+        throw new Error('Child not found');
+    }
+
+    if(child.user.toString() !== req.user.id) {
+        res.status(401);
+        throw new Error ('Not Authorized');
+    }
+
+    const updatedChild = await Child.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
+    res.status(200).json(updatedChild);
+});
+
+
+
+// imported in routes/childRoutes
 module.exports = {
     getChildren,
-    createChild
+    getChild,
+    createChild,
+    deleteChild,
+    updateChild
 };
