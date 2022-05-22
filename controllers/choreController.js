@@ -29,7 +29,7 @@ const getChores = asyncHandler(async (req, res) => {
     res.status(200).json(chores);
 });
 
-// @desc  Get chores for a child - ACTIVE ONLY - (NOT COMPLETED)
+// @desc  Get chores for a child - ACTIVE CHORES ONLY - (NOT COMPLETED CHORES)
 // @ route GET /api/children/:childId/chores/active
 // @ access Private
 
@@ -103,6 +103,7 @@ const addChore = asyncHandler(async (req, res) => {
         title: req.body.title,
         desc: req.body.desc,
         value: req.body.value,
+        icon: req.body.icon,
         child: req.params.childId,
         user: req.user.id
     })

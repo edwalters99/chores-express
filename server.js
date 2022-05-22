@@ -23,7 +23,9 @@ app.get('/', (req, res) => {
 
 //Routes
 app.use('/api/users', require('./routes/userRoutes'));   // connects userRoutes to /api/users.  Sub routes are then defined in userRoutes.
-app.use('/api/children', require('./routes/childRoutes')); 
+app.use('/api/children', require('./routes/childRoutes'));
+
+app.use('/api/favourites', require('./routes/favouriteRoutes'));
 
 app.use(errorHandler);  // custom error handler (middleware)
 

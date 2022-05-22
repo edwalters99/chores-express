@@ -34,7 +34,7 @@ const childSchema = mongoose.Schema({
     avatar: {
         type: String,
         required: [true, "Please select an avatar"],
-        enum: ['dino', 'cat', 'dog', 'rabbit']
+        enum: ['dinosaur', 'cat', 'dog', 'rabbit']
     }
 }, 
 {

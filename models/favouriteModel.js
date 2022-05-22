@@ -1,15 +1,10 @@
 const mongoose = require('mongoose');
 
-const choreSchema = mongoose.Schema({
+const favouriteSchema = mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'  // defines which model's ObjectId
-    },
-    child: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Child'  
     },
     title: {
         type: String,
@@ -17,10 +12,7 @@ const choreSchema = mongoose.Schema({
     },
     desc: {
        type: String,
-       required: [true, "Please supply a desc"]
-    },
-    icon: {
-        type: String,
+       required: [true, "Please supply a description"]
     },
     value: {
         type: Number,
@@ -28,17 +20,12 @@ const choreSchema = mongoose.Schema({
         set: v => Math.round(v),
         required: [true, "Please supply a value"]
     },
-    isApproved: {
-        type: Boolean,
-        default: false
-    },
-    isCompleted: {
-        type: Boolean,
-        default: false
-    },
+    icon: {
+        type: String
+    }
 }, 
 {
     timestamps: true,
 });
 
-module.exports = mongoose.model('Chore', choreSchema);   // imported in controller
+module.exports = mongoose.model('Favourite', favouriteSchema);   // imported in controller
