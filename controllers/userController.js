@@ -10,25 +10,19 @@ const jwt = require('jsonwebtoken');
 
 const registerUser = asyncHandler(async (req, res) => {
     // console.log(req.body);
-    const {username, email, password, familyname, } = req.body; 
+    const {email, password, familyname, } = req.body; 
 
     // Validation
-    if(!username || !email || !password || !familyname) {
+    if(!email || !password || !familyname) {
         res.status(400); // client error
         throw new Error('Please include all fields');
     }
     // find if user already exists
     const emailExists = await User.findOne({email});
-    const usernameExists = await User.findOne({username});
 
     if (emailExists) {
         res.status(400);
         throw new Error('Email address already exists');
-    };
-
-    if (usernameExists) {
-        res.status(400);
-        throw new Error('Username already exists');
     };
 
     //hash password
@@ -37,7 +31,6 @@ const registerUser = asyncHandler(async (req, res) => {
 
     // Create User
     const user = await User.create({
-        username,
         email,
         familyname,
         password: hashedPassword  // very important!
@@ -47,7 +40,6 @@ const registerUser = asyncHandler(async (req, res) => {
     if(user) {
         res.status(201).json({
            _id: user._id,
-           username: user.username,
            email: user.email,
            familyname: user.familyname,
            token: generateToken(user._id)
@@ -63,16 +55,15 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route      /api/users/login
 // @access     Public
 const loginUser = asyncHandler(async (req, res) => {
-    const {username, password} = req.body;
+    const {email, password} = req.body;
 
     // find user
-    const user = await User.findOne({username});
+    const user = await User.findOne({email});
 
      // if user found and passwords match
      if(user && (await bcrypt.compare(password, user.password))) {
         res.status(200).json({
             _id: user._id,
-            username: user.username,
             email: user.email,
             token: generateToken(user._id)
         });
@@ -91,7 +82,6 @@ const getCurrentUser = asyncHandler(async (req, res) => {
     const user = {
         id: req.user._id,
         email: req.user.email,
-        username: req.user.username,
         familyname: req.user.familyname
     };
     res.status(200).json(user);
@@ -102,8 +92,6 @@ const generateToken = (id) => {
         expiresIn: '30d',
     });
 };
-
-
 
 
 //imported in UserRoutes
