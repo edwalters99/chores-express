@@ -57,7 +57,7 @@ const getChild = asyncHandler(async (req, res) => {
 // @ access Private
 
 const createChild = asyncHandler(async (req, res) => {
-    const { firstname, dob, rewardbal, choresdone, color, avatar } = req.body;
+    const { firstname, dob, color, avatar } = req.body;
     if (!firstname || !dob || !color || !avatar ) {
         res.status(400);
         throw new Error('Incomplete data supplied for new Child');

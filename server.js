@@ -4,6 +4,7 @@ const dotenv = require('dotenv').config();
 const colors = require('colors'); // colors in console.logs
 const { errorHandler } = require('./middleware/errorMiddleware');
 const connectDB = require('./config/db');
+const bodyParser = require('body-parser');
 
 const PORT = process.env.PORT || 3000; // this is so it works when hosted and lets the host provider assign a port for you.
 
@@ -12,9 +13,14 @@ connectDB();
 
 
 const app = express();
+
 app.use(cors());
-app.use(express.json()); // so the server can accept raw json in post request
-app.use(express.urlencoded({extended: false})); // so the server can accept url encoded form data in post request
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
+// app.use(express.json()); // so the server can accept raw json in post request
+// app.use(express.urlencoded({extended: false})); // so the server can accept url encoded form data in post request
 
 
 app.get('/', (req, res) => {

@@ -6,6 +6,8 @@ const protect = asyncHandler(async (req, res, next) => {
     
     let token;
     // token is received in headers in the format 'Bearer <token>'
+    console.log(req.headers);
+    console.log(req.body);
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         try {
             // Get token from header (remove prefix Bearer)
@@ -28,4 +30,4 @@ const protect = asyncHandler(async (req, res, next) => {
     };
 });
 
-module.exports = { protect};
+module.exports = { protect };
