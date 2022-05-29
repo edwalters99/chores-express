@@ -13,6 +13,12 @@ const userSchema = mongoose.Schema({
     familyname: {
         type: String,
         required: [true, "Please supply a family name"], 
+    },
+    pin: {
+        type: Number,
+        get: v => Math.round(v),
+        set: v => Math.round(v),
+        required: [true, "Please supply a 4 digit PIN"]
     }
 }, 
 {

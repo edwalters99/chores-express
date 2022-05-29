@@ -10,10 +10,10 @@ const jwt = require('jsonwebtoken');
 
 const registerUser = asyncHandler(async (req, res) => {
     // console.log(req.body);
-    const {email, password, familyname, } = req.body; 
+    const {email, password, familyname, pin } = req.body; 
 
     // Validation
-    if(!email || !password || !familyname) {
+    if(!email || !password || !familyname || pin) {
         res.status(400); // client error
         throw new Error('Please include all fields');
     }
@@ -32,8 +32,9 @@ const registerUser = asyncHandler(async (req, res) => {
     // Create User
     const user = await User.create({
         email,
+        password: hashedPassword,  // very important!
         familyname,
-        password: hashedPassword  // very important!
+        pin
     });
 
     // generateToken is a custom function to return a signed token(requires user id)
@@ -42,6 +43,7 @@ const registerUser = asyncHandler(async (req, res) => {
            _id: user._id,
            email: user.email,
            familyname: user.familyname,
+           pin: user.pin,
            token: generateToken(user._id)
         });
     } else {
@@ -66,6 +68,7 @@ const loginUser = asyncHandler(async (req, res) => {
             _id: user._id,
             email: user.email,
             familyname: user.familyname,
+            pin: user.pin,
             token: generateToken(user._id)
         });
     } else {
@@ -83,7 +86,8 @@ const getCurrentUser = asyncHandler(async (req, res) => {
     const user = {
         id: req.user._id,
         email: req.user.email,
-        familyname: req.user.familyname
+        familyname: req.user.familyname,
+        pin: req.user.pin
     };
     res.status(200).json(user);
 });

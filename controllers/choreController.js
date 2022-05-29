@@ -107,7 +107,7 @@ const addChore = asyncHandler(async (req, res) => {
         child: req.params.childId,
         user: req.user.id
     })
-
+    
     res.status(200).json(chore);
 });
 
