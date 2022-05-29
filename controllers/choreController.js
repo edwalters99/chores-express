@@ -133,8 +133,7 @@ const updateChore = asyncHandler(async (req, res) => {
     }
 
     const updatedChore = await Chore.findByIdAndUpdate(req.params.id, req.body, {new: true });
-    console.log("UPDATED CHORE" + updatedChore)
-  
+
     res.status(200).json(updatedChore);
 });
 
