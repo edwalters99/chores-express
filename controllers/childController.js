@@ -109,7 +109,7 @@ const deleteChild = asyncHandler(async (req, res) => {
 
     await child.remove();
 
-    res.status(200).json({success: true});
+    res.status(200).json({success: true, _id: child._id });
 });
 
 // @desc  Update child (single - must belong to current user)
