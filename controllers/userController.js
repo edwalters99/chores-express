@@ -10,10 +10,11 @@ const jwt = require('jsonwebtoken');
 
 const registerUser = asyncHandler(async (req, res) => {
     // console.log(req.body);
+    console.log(req)
     const {email, password, familyname, pin } = req.body; 
 
     // Validation
-    if(!email || !password || !familyname || pin) {
+    if(!email || !password || !familyname || !pin) {
         res.status(400); // client error
         throw new Error('Please include all fields');
     }
