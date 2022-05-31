@@ -17,10 +17,11 @@ const choreSchema = mongoose.Schema({
     },
     desc: {
        type: String,
-       required: [true, "Please supply a desc"]
+       required: [true, "Please supply a description"]
     },
     icon: {
         type: String,
+        required: [true, "Please supply an emoji"]
     },
     value: {
         type: Number,

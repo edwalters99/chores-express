@@ -43,7 +43,10 @@ const getChoresActive = asyncHandler(async (req, res) => {
     };
 
     const child = await Child.findById(req.params.childId);
-
+    console.log('child.user.tostring')
+    console.log(child.user.toString());
+    console.log('req.user.id')
+    console.log(req.user.id);
     if (child.user.toString() !== req.user.id) {
         res.status(401)
         throw new Error('User not authorized')

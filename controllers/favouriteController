@@ -27,9 +27,9 @@ const getFavourites = asyncHandler(async (req, res) => {
 
 const createFavourite = asyncHandler(async (req, res) => {
     const { title, desc, value, icon } = req.body;
-    if (!title || !desc || !value ) {
+    if (!title || !desc || !value || !icon ) {
         res.status(400);
-        throw new Error('Incomplete data supplied for new Favourite');
+        throw new Error('Incomplete data supplied for new Chore');
     }
      // Get user using the id in the JWT
      const user = await User.findById(req.user.id);
@@ -68,7 +68,7 @@ const updateFavourite = asyncHandler(async (req, res) => {
 
     if (!favourite) {
         res.status(404);
-        throw new Error('Favourite not found');
+        throw new Error('Chore not found');
     }
 
     if(favourite.user.toString() !== req.user.id) {
