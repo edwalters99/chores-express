@@ -1,14 +1,16 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { registerUser, loginUser, getCurrentUser } = require('../controllers/userController');
+const {
+  registerUser,
+  loginUser,
+  getCurrentUser,
+} = require("../controllers/userController");
 
-const { protect } = require('../middleware/authMiddleware');
+const { protect } = require("../middleware/authMiddleware");
 
 // add protect as second argument when required
 
-router.post('/', registerUser);  //api/users /
-router.post('/login', loginUser); //api/users /login
-router.post('/getcurrent', protect, getCurrentUser); //api/users /getcurrent
-;
-
+router.post("/", registerUser); //api/users /
+router.post("/login", loginUser); //api/users /login
+router.post("/getcurrent", protect, getCurrentUser); //api/users /getcurrent
 module.exports = router;
