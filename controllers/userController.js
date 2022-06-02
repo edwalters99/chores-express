@@ -79,15 +79,16 @@ const loginUser = asyncHandler(async (req, res) => {
 // @ access Private
 
 // req.user is assigned in authMiddleware.js
-const getCurrentUser = asyncHandler(async (req, res) => {
-  const user = {
-    id: req.user._id,
-    email: req.user.email,
-    familyname: req.user.familyname,
-    pin: req.user.pin,
-  };
-  res.status(200).json(user);
-});
+
+// const getCurrentUser = asyncHandler(async (req, res) => {
+//   const user = {
+//     id: req.user._id,
+//     email: req.user.email,
+//     familyname: req.user.familyname,
+//     pin: req.user.pin,
+//   };
+//   res.status(200).json(user);
+// });
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -98,6 +99,8 @@ const generateToken = (id) => {
 //imported in UserRoutes
 module.exports = {
   registerUser,
-  loginUser,
-  getCurrentUser,
+  loginUser
+  // getCurrentUser
 };
+
+// getCurrentUser not yet implemented

@@ -12,5 +12,5 @@ const { protect } = require("../middleware/authMiddleware");
 
 router.post("/", registerUser); //api/users /
 router.post("/login", loginUser); //api/users /login
-router.post("/getcurrent", protect, getCurrentUser); //api/users /getcurrent
+// router.post("/getcurrent", protect, getCurrentUser); //api/users /getcurrent
 module.exports = router;
