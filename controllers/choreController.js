@@ -60,30 +60,30 @@ const getChoresActive = asyncHandler(async (req, res) => {
 // @ route GET /api/children/:childId/chores/approval
 // @ access Private
 
-const getChoresApproval = asyncHandler(async (req, res) => {
-  // Get user using the id in the JWT
-  const user = await User.findById(req.user.id);
+// const getChoresApproval = asyncHandler(async (req, res) => {
+//   // Get user using the id in the JWT
+//   const user = await User.findById(req.user.id);
 
-  if (!user) {
-    res.status(401);
-    throw new Error("User not found");
-  }
+//   if (!user) {
+//     res.status(401);
+//     throw new Error("User not found");
+//   }
 
-  const child = await Child.findById(req.params.childId);
+//   const child = await Child.findById(req.params.childId);
 
-  if (child.user.toString() !== req.user.id) {
-    res.status(401);
-    throw new Error("User not authorized");
-  }
+//   if (child.user.toString() !== req.user.id) {
+//     res.status(401);
+//     throw new Error("User not authorized");
+//   }
 
-  const choresActive = await Chore.find({
-    child: req.params.childId,
-    isCompleted: true,
-    isApproved: false,
-  });
+//   const choresApproval = await Chore.find({
+//     child: req.params.childId,
+//     isCompleted: true,
+//     isApproved: false,
+//   });
 
-  res.status(200).json(choresActive);
-});
+//   res.status(200).json(choresApproval);
+// });
 
 // @desc  Create child chore
 // @ route POST /api/children/:childId/chores
@@ -147,7 +147,7 @@ const updateChore = asyncHandler(async (req, res) => {
 module.exports = {
   getChores,
   getChoresActive,
-  getChoresApproval,
+  // getChoresApproval,
   addChore,
   updateChore,
 };
