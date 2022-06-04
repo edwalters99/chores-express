@@ -1,7 +1,9 @@
 # chores-express
 
-Express API server for [Chore Tracker](https://github.com/edwalters99/chores-react)
-Please visit the link above for full README file relating to the project.
+API server for [Chore Tracker](https://github.com/edwalters99/chores-react) <br />
+Please visit the link above for a full README relating to the project.
+
+---------------------------------------------------------------
 
 # Technologies
 Project created with:
