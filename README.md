@@ -1,6 +1,7 @@
 # chores-express
 
-API server for [Chore Tracker](https://github.com/edwalters99/chores-react) <br />
+This is the back-end server repo for [Chore Tracker](https://github.com/edwalters99/chores-react) my final project from the General Assembly Software Engineering Immersive Bootcamp.
+
 Please visit the link above for a full README relating to the project.
 
 ---------------------------------------------------------------
