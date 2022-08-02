@@ -1,6 +1,6 @@
-const asyncHandler = require("express-async-handler");
-const User = require("../models/userModel");
-const Favourite = require("../models/favouriteModel");
+const asyncHandler = require('express-async-handler');
+const User = require('../models/userModel');
+const Favourite = require('../models/favouriteModel');
 
 // @desc  Get user's favourite chores
 // @ route GET /api/favourites
@@ -12,7 +12,7 @@ const getFavourites = asyncHandler(async (req, res) => {
 
   if (!user) {
     res.status(401);
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
 
   const favourites = await Favourite.find({ user: req.user.id });
@@ -28,14 +28,14 @@ const createFavourite = asyncHandler(async (req, res) => {
   const { title, desc, value, icon } = req.body;
   if (!title || !desc || !value || !icon) {
     res.status(400);
-    throw new Error("Incomplete data supplied for new Chore");
+    throw new Error('Incomplete data supplied for new Chore');
   }
   // Get user using the id in the JWT
   const user = await User.findById(req.user.id);
 
   if (!user) {
     res.status(401);
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
 
   const favourite = await Favourite.create({
@@ -95,19 +95,24 @@ const deleteFavourite = asyncHandler(async (req, res) => {
 
   if (!user) {
     res.status(401);
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
-
-  const favourite = await Favourite.findById(req.params.id);
+  let favourite;
+  try {
+    favourite = await Favourite.findById(req.params.id);
+  } catch (error) {
+    res.status(400);
+    throw new Error('Bad Request');
+  }
 
   if (!favourite) {
     res.status(404);
-    throw new Error("Favourite not found");
+    throw new Error('Favourite not found');
   }
 
   if (favourite.user.toString() !== req.user.id) {
     res.status(401);
-    throw new Error("Not Authorized");
+    throw new Error('Not Authorized');
   }
 
   await favourite.remove();

@@ -1,7 +1,7 @@
-const asyncHandler = require("express-async-handler");
-const User = require("../models/userModel");
-const Child = require("../models/childModel");
-const Chore = require("../models/choreModel");
+const asyncHandler = require('express-async-handler');
+const User = require('../models/userModel');
+const Child = require('../models/childModel');
+const Chore = require('../models/choreModel');
 
 // @desc  Get chores for a child
 // @ route GET /api/children/:childId/chores
@@ -13,14 +13,19 @@ const getChores = asyncHandler(async (req, res) => {
 
   if (!user) {
     res.status(401);
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
-
-  const child = await Child.findById(req.params.childId);
+  let child;
+  try {
+    child = await Child.findById(req.params.childId);
+  } catch (error) {
+    res.status(400);
+    throw new Error('Bad request');
+  }
 
   if (child.user.toString() !== req.user.id) {
     res.status(401);
-    throw new Error("User not authorized");
+    throw new Error('User not authorized');
   }
 
   const chores = await Chore.find({ child: req.params.childId });
@@ -38,14 +43,19 @@ const getChoresActive = asyncHandler(async (req, res) => {
 
   if (!user) {
     res.status(401);
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
-
-  const child = await Child.findById(req.params.childId);
+  let child;
+  try {
+    child = await Child.findById(req.params.childId);
+  } catch (error) {
+    res.status(400);
+    throw new Error('Bad request');
+  }
 
   if (child.user.toString() !== req.user.id) {
     res.status(401);
-    throw new Error("User not authorized");
+    throw new Error('User not authorized');
   }
 
   const choresActive = await Chore.find({
@@ -95,14 +105,19 @@ const addChore = asyncHandler(async (req, res) => {
 
   if (!user) {
     res.status(401);
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
-
-  const child = await Child.findById(req.params.childId);
+  let child;
+  try {
+    child = await Child.findById(req.params.childId);
+  } catch (error) {
+    res.status(400);
+    throw new Error('Bad request');
+  }
 
   if (child.user.toString() !== req.user.id) {
     res.status(401);
-    throw new Error("User not authorized");
+    throw new Error('User not authorized');
   }
 
   const chore = await Chore.create({
@@ -127,14 +142,19 @@ const updateChore = asyncHandler(async (req, res) => {
 
   if (!user) {
     res.status(401);
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
-
-  const child = await Child.findById(req.params.childId);
+  let child;
+  try {
+    child = await Child.findById(req.params.childId);
+  } catch (error) {
+    res.status(400);
+    throw new Error('Bad request');
+  }
 
   if (child.user.toString() !== req.user.id) {
     res.status(401);
-    throw new Error("User not authorized");
+    throw new Error('User not authorized');
   }
 
   const updatedChore = await Chore.findByIdAndUpdate(req.params.id, req.body, {

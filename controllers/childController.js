@@ -1,6 +1,6 @@
-const asyncHandler = require("express-async-handler");
-const User = require("../models/userModel");
-const Child = require("../models/childModel");
+const asyncHandler = require('express-async-handler');
+const User = require('../models/userModel');
+const Child = require('../models/childModel');
 
 // @desc  Get user's children
 // @ route GET /api/children
@@ -12,7 +12,7 @@ const getChildren = asyncHandler(async (req, res) => {
 
   if (!user) {
     res.status(401);
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
 
   const children = await Child.find({ user: req.user.id });
@@ -30,19 +30,24 @@ const getChild = asyncHandler(async (req, res) => {
 
   if (!user) {
     res.status(401);
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
-
-  const child = await Child.findById(req.params.id);
+  let child;
+  try {
+    child = await Child.findById(req.params.id);
+  } catch (error) {
+    res.status(400);
+    throw new Error('Bad request');
+  }
 
   if (!child) {
     res.status(404);
-    throw new Error("Child not found");
+    throw new Error('Child not found');
   }
 
   if (child.user.toString() !== req.user.id) {
     res.status(401);
-    throw new Error("Not Authorized");
+    throw new Error('Not Authorized');
   }
 
   res.status(200).json(child);
@@ -56,14 +61,14 @@ const createChild = asyncHandler(async (req, res) => {
   const { firstname, dob, color, avatar } = req.body;
   if (!firstname || !dob || !color || !avatar) {
     res.status(400);
-    throw new Error("Incomplete data supplied for new Child");
+    throw new Error('Incomplete data supplied for new Child');
   }
   // Get user using the id in the JWT
   const user = await User.findById(req.user.id);
 
   if (!user) {
     res.status(401);
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
 
   const child = await Child.create({
@@ -87,19 +92,24 @@ const deleteChild = asyncHandler(async (req, res) => {
 
   if (!user) {
     res.status(401);
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
-
-  const child = await Child.findById(req.params.id);
+  let child;
+  try {
+    child = await Child.findById(req.params.id);
+  } catch (error) {
+    res.status(400);
+    throw new Error('Bad request');
+  }
 
   if (!child) {
     res.status(404);
-    throw new Error("Child not found");
+    throw new Error('Child not found');
   }
 
   if (child.user.toString() !== req.user.id) {
     res.status(401);
-    throw new Error("Not Authorized");
+    throw new Error('Not Authorized');
   }
 
   await child.remove();
@@ -117,19 +127,24 @@ const updateChild = asyncHandler(async (req, res) => {
 
   if (!user) {
     res.status(401);
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
-
-  const child = await Child.findById(req.params.id);
+  let child;
+  try {
+    child = await Child.findById(req.params.id);
+  } catch (error) {
+    res.status(400);
+    throw new Error('Bad request');
+  }
 
   if (!child) {
     res.status(404);
-    throw new Error("Child not found");
+    throw new Error('Child not found');
   }
 
   if (child.user.toString() !== req.user.id) {
     res.status(401);
-    throw new Error("Not Authorized");
+    throw new Error('Not Authorized');
   }
 
   const updatedChild = await Child.findByIdAndUpdate(req.params.id, req.body, {
