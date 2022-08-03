@@ -16,7 +16,6 @@ const getChildren = asyncHandler(async (req, res) => {
   }
 
   const children = await Child.find({ user: req.user.id });
-
   res.status(200).json(children);
 });
 
@@ -32,6 +31,7 @@ const getChild = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error('User not found');
   }
+
   let child;
   try {
     child = await Child.findById(req.params.id);
@@ -59,10 +59,12 @@ const getChild = asyncHandler(async (req, res) => {
 
 const createChild = asyncHandler(async (req, res) => {
   const { firstname, dob, color, avatar } = req.body;
+
   if (!firstname || !dob || !color || !avatar) {
     res.status(400);
     throw new Error('Incomplete data supplied for new Child');
   }
+
   // Get user using the id in the JWT
   const user = await User.findById(req.user.id);
 
@@ -94,6 +96,7 @@ const deleteChild = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error('User not found');
   }
+
   let child;
   try {
     child = await Child.findById(req.params.id);
@@ -129,6 +132,7 @@ const updateChild = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error('User not found');
   }
+
   let child;
   try {
     child = await Child.findById(req.params.id);
@@ -154,7 +158,7 @@ const updateChild = asyncHandler(async (req, res) => {
   res.status(200).json(updatedChild);
 });
 
-// imported in routes/childRoutes
+// imported in routes/childRoutes.js
 module.exports = {
   getChildren,
   getChild,

@@ -26,10 +26,12 @@ const getFavourites = asyncHandler(async (req, res) => {
 
 const createFavourite = asyncHandler(async (req, res) => {
   const { title, desc, value, icon } = req.body;
+
   if (!title || !desc || !value || !icon) {
     res.status(400);
     throw new Error('Incomplete data supplied for new Chore');
   }
+
   // Get user using the id in the JWT
   const user = await User.findById(req.user.id);
 
@@ -49,42 +51,6 @@ const createFavourite = asyncHandler(async (req, res) => {
   res.status(201).json(favourite);
 });
 
-// @desc  Update favourite
-// @ route PUT /api/favourites/:id
-// @ access Private
-
-// Not yet implemented
-
-// const updateFavourite = asyncHandler(async (req, res) => {
-//   // Get user using the id in the JWT
-//   const user = await User.findById(req.user.id);
-
-//   if (!user) {
-//     res.status(401);
-//     throw new Error("User not found");
-//   }
-
-//   const favourite = await Favourite.findById(req.params.id);
-
-//   if (!favourite) {
-//     res.status(404);
-//     throw new Error("Chore not found");
-//   }
-
-//   if (favourite.user.toString() !== req.user.id) {
-//     res.status(401);
-//     throw new Error("Not Authorized");
-//   }
-
-//   const updatedFavourite = await Favourite.findByIdAndUpdate(
-//     req.params.id,
-//     req.body,
-//     { new: true }
-//   );
-
-//   res.status(200).json(updatedFavourite);
-// });
-
 // @desc  Delete favourite
 // @ route DELETE /api/favourites/:id
 // @ access Private
@@ -97,6 +63,7 @@ const deleteFavourite = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error('User not found');
   }
+
   let favourite;
   try {
     favourite = await Favourite.findById(req.params.id);
@@ -123,6 +90,5 @@ const deleteFavourite = asyncHandler(async (req, res) => {
 module.exports = {
   getFavourites,
   createFavourite,
-  // updateFavourite, *** not yet implemented ***
   deleteFavourite,
 };

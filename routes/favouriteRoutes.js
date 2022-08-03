@@ -1,19 +1,14 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
+const { protect } = require('../middleware/authMiddleware');
 const {
   getFavourites,
   createFavourite,
   deleteFavourite,
-  // updateFavourite
-} = require("../controllers/favouriteController");
-const { protect } = require("../middleware/authMiddleware");
+} = require('../controllers/favouriteController');
 
-router.route("/").get(protect, getFavourites).post(protect, createFavourite);
-router
-  .route("/:id")
-  // .put(protect, updateFavourite)
-  .delete(protect, deleteFavourite);
+router.route('/').get(protect, getFavourites).post(protect, createFavourite);
+
+router.route('/:id').delete(protect, deleteFavourite);
 
 module.exports = router;
-
-// updateFavourite not yet implemented

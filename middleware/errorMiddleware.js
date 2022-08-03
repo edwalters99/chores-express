@@ -1,7 +1,7 @@
-// helper function to provide full JSON response for errors (enables use of 'throw error' in Controller)
+// helper function to provide full JSON response for errors (enables use of thowing errors in Controllers)
 
 const errorHandler = (err, req, res, next) => {
-  const statusCode = res.statusCode ? res.statusCode : 500; // if no status code provided
+  const statusCode = res.statusCode ? res.statusCode : 500; // if no status code provided use 500
   res.status(statusCode);
   res.json({
     message: err.message,
@@ -9,4 +9,5 @@ const errorHandler = (err, req, res, next) => {
   }); // only provides full error stack if not in production env
 };
 
-module.exports = { errorHandler }; // imported in server.js
+// imported in server.js
+module.exports = { errorHandler }; 

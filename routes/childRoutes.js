@@ -1,22 +1,22 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
+const { protect } = require('../middleware/authMiddleware');
 const {
   getChildren,
   getChild,
   createChild,
   deleteChild,
   updateChild,
-} = require("../controllers/childController");
-const { protect } = require("../middleware/authMiddleware");
+} = require('../controllers/childController');
 
 // re-route to chore router
-const choreRouter = require("./choreRoutes");
-router.use("/:childId/chores", choreRouter);
+const choreRouter = require('./choreRoutes');
+router.use('/:childId/chores', choreRouter);
 
-router.route("/").get(protect, getChildren).post(protect, createChild);
+router.route('/').get(protect, getChildren).post(protect, createChild);
 
 router
-  .route("/:id")
+  .route('/:id')
   .get(protect, getChild)
   .delete(protect, deleteChild)
   .put(protect, updateChild);

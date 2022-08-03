@@ -27,4 +27,5 @@ const userSchema = mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("User", userSchema); // imported in controller
+// imported in controller
+module.exports = mongoose.model("User", userSchema); 
